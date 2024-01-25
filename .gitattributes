@@ -1,1 +1,1 @@
-.csharp linguist-language=CSharp
+*.cs linguist-language=C#
