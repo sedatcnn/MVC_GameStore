@@ -1,0 +1,233 @@
+﻿@using MVCProje.Models.DTO
+@model ShoppingCartItemViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link href="~/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="~/css/bootstrap-shopping-carts.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Start your project here-->
+  <style>
+    
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+      border-bottom-left-radius: 16px;
+     border-bottom-right-radius: 16px;
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+    }
+
+    .card-registration .select-arrow {
+    top: 13px;
+    }
+
+    .bg-grey {
+    background-color: #eae8e8;
+    }
+
+   
+  </style>
+  <section class="h-100 h-custom" >
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12">
+          <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+            <div class="card-body p-0">
+              <div class="row g-0">
+                <div class="col-lg-8">
+                  <div class="p-5">
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                      <h1 class="fw-bold mb-0 text-black">Sepet</h1>
+                      <h6 class="mb-0 text-muted">Ürün Sayısı @Model.Getir.Count()</h6>
+                     
+                    </div>
+                    @foreach (var item in Model.Getir)
+                    {
+                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                <img src="~/image/@item.OyunImage" class="img-fluid rounded-3" alt="@item.OyunAdi">
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                <h6 class="text-black mb-0">@item.OyunAdi</h6>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                <!-- Your quantity-related buttons and input -->
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                    <h6 class="mb-0 text-black">₺ @item.Fiyat</h6>
+                            </div>
+                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                <form method="post" action="@Url.Action("Sil", "Home", new { id = item.Id})">
+                                    <button type="submit" class="btn btn-danger">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                        @Html.AntiForgeryToken()
+                                </form>
+                            </div>
+                           @*  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                <a href="@Url.Action("Sil", new { oyunId = item.OyunId })" class="text-muted">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div> *@
+                        </div>
+                        <hr class="my-4 bg-black">
+                    }
+
+
+
+                                        <div class="pt-5">
+                       <form method="get" action="@Url.Action("Index", "Home")">
+                           <button type="submit" class="btn btn-link text-body">
+                               <i class="fas fa-long-arrow-alt-left me-2">Alışverişe devam et</i>
+                           </button>
+                       </form>
+                   </div>
+
+                  </div>
+                </div>
+                <div class="col-lg-4 bg-grey">
+                  <div class="p-5">
+                                        <h3 class="fw-bold mb-5 mt-2 pt-1 text-dark">Toplam</h3>
+                                        <hr class="my-4 bg-dark">
+
+                                        <div class="d-flex  justify-content-between align-items-center mb-4">
+                                            <h5 class="mb-0 text-dark">Kart Bilgileri</h5>
+
+                    </div>
+
+                                        <p class="small mb-2 text-dark">Kart Tipi</p>
+                                        <a href="#!" type="submit" class="text-dark">
+                        <i class="fab fa-cc-mastercard fa-2x me-2"></i>
+                    </a>
+                                        <a href="#!" type="submit" class="text-dark">
+                        <i class="fab fa-cc-visa fa-2x me-2"></i>
+                    </a>
+                                        <a href="#!" type="submit" class="text-dark">
+                        <i class="fab fa-cc-amex fa-2x me-2"></i>
+                    </a>
+                                        <a href="#!" type="submit" class="text-dark"><i class="fab fa-cc-paypal fa-2x"></i></a>
+
+                    <form class="mt-4">
+                        <div class="form-outline form-dark mb-4">
+                            <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                                                       placeholder="Kart Sahibinin Adı" />
+                            <label class="form-label" for="typeName">Kart Sahibinin Adı</label>
+                        </div>
+
+                                            <div class="form-outline form-dark mb-4">
+                            <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                                   placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
+                            <label class="form-label" for="typeText">Kart Numarasın</label>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                                    <div class="form-outline form-dark">
+                                    <input type="text" id="typeExp" class="form-control form-control-lg"
+                                           placeholder="AA/YY" size="5" id="exp" minlength="5" maxlength="5" />
+                                    <label class="form-label" for="typeExp">Son Kullanma Tarihi</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                                    <div class="form-outline form-dark">
+                                    <input type="password" id="typeText" class="form-control form-control-lg"
+                                           placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                                    <label class="form-label" for="typeText">Cvv</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                     <h5 class="text-uppercase text-dark">İndirim Kodu</h5>
+                     <div class="mb-5">
+                         <div class="form-outline">
+                             <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
+                             <label class="form-label" for="form3Examplea2">Kodu girin</label>
+                         </div>
+                     </div>
+
+                     <hr class="my-4 bg-black">
+
+                     <div class="d-flex justify-content-between">
+                         <p class="mb-2 text-dark">Toplam Tutar</p>
+                         <p class="mb-2 text-dark">
+                             @{
+                                 decimal totalAmount = Model.Getir.Sum(item => item.Fiyat);
+                             }
+                             @totalAmount.ToString("C", new System.Globalization.CultureInfo("tr-TR"))
+                         </p>
+                     </div>
+
+
+                                        <form id="paymentForm" method="post" action="@Url.Action("Tamamlandı", "Home")">
+                                            <button type="button" class="btn btn-success btn-block btn-lg" onclick="submitPaymentForm()">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>
+                                                        <span>@totalAmount.ToString("C", new System.Globalization.CultureInfo("tr-TR"))</span>
+                                                    </span>
+                                                    <span>Öde <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                </div>
+                                            </button>
+                                        </form>
+
+                                        <!-- SweetAlert Script -->
+                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                                        <script>
+                                            function submitPaymentForm() {
+                                                // Sepetin boş olup olmadığını kontrol et
+                                                var sepetUrunSayisi = @Model.Getir.Count();
+
+                                                if (sepetUrunSayisi === 0) {
+                                                    // SweetAlert ile sepet boş mesajını göster
+                                                    Swal.fire({
+                                                        icon: 'warning',
+                                                        title: 'Uyarı',
+                                                        text: 'Sepetiniz boş. Ödeme yapabilmek için önce ürün ekleyin.',
+                                                        confirmButtonColor: '#3085d6',
+                                                        confirmButtonText: 'Tamam'
+                                                    });
+                                                } else {
+                                                    // SweetAlert ile onay mesajını göster
+                                                    Swal.fire({
+                                                        icon: 'success',
+                                                        title: 'Başarılı',
+                                                        text: 'Ödeme işlemi tamamlandı. Devam etmek istiyor musunuz?',
+                                                        confirmButtonColor: '#3085d6',
+                                                        confirmButtonText: 'Evet',
+                                                        showCancelButton: true,
+                                                        cancelButtonText: 'Hayır'
+                                                    }).then(function (result) {
+                                                        // Onaylandıktan sonra formu submit et
+                                                        if (result.isConfirmed) {
+                                                            document.getElementById("paymentForm").submit();
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<script src="~/js/mdb.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+﻿@using MVCProje.Extensions
+@using MVCProje.Models.DTO
+@model TurEkleGuncelleDto
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        Tur ekleme sayfası
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Ekle", "Tur", FormMethod.Post))
+        {
+            @Html.MyTextBoxFor(x => x.Ad, "Tur", null, "#ffff", new { @class = "form-control", placeholder = "Tur adını giriniz", required = "required", data_val_required = "Tur adı boş bırakılamaz." })
+
+            <button type="submit" class="btn btn-success my-3">
+                Kaydet
+            </button>
+        }
+
+        <div id="validationError" class="text-danger"></div>
+
+        <script>
+            document.querySelector('form').addEventListener('submit', function (e) {
+                var adInput = document.querySelector('#Ad');
+
+                if (!adInput.value.trim()) {
+                    e.preventDefault(); 
+                    document.getElementById('validationError').innerText = 'Tur adı boş bırakılamaz.';
+                }
+            });
+        </script>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register confirmation";
+}
+
+<h1>@ViewData["Title"]</h1>
+@{
+    if (@Model.DisplayConfirmAccountLink)
+    {
+<p>
+            Bu uygulamada şu anda kayıtlı gerçek bir e-posta göndereni yok; gerçek bir e-posta göndereni nasıl yapılandıracağınızı öğrenmek için  <a href="https://aka.ms/aspaccountconf">bu belgelere</a> bakın.
+            Normalde bu e-postayla gönderilir: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Tıklayarak hesabınızı onaylayınız.</a>
+</p>
+    }
+    else
+    {
+<p>
+            Hesabınızı onaylamak için lütfen e-postanızı kontrol edin.
+</p>
+    }
+}
+

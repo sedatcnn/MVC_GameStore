@@ -1,0 +1,69 @@
+﻿@using MVCProje.Models.DTO
+
+@model OyunEkleGuncelleViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        Oyun ekleme sayfası
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Ekle", "Oyunlar", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="my-3">
+                <label class="form-label">Oyun Ad</label>
+                @Html.TextBoxFor(x => x.Oyun.OyunAdi, new { @class = "form-control", placeholder = "Oyun adını giriniz" })
+            </div>
+
+            <div class="my-3">
+                <label class="form-label">Fiyat</label>
+
+                @Html.TextBoxFor(x => x.Oyun.Fiyat, "", new { @class = "form-control", placeHolder = "Oyun fiyatını giriniz" })
+
+            </div>
+
+            <div class="my-3">
+                <label class="form-label">Kategori</label>
+
+                @Html.DropDownListFor(x => x.Oyun.KategoriId, new SelectList(Model.Kategoriler, "Id", "KategoriAd"), new { @class = "form-control", })
+
+            </div>
+
+            <div class="my-3">
+                <label class="form-label">Tur</label>
+
+                @Html.DropDownListFor(x => x.Oyun.TurId, new SelectList(Model.OyunTurler, "Id", "TurAd"), new { @class = "form-control", })
+            
+            </div>
+            <div class="my-3">
+                <label class="form-label">Açıklama</label>
+
+                @Html.TextAreaFor(x => x.Oyun.Aciklama, new { @class = "form-control", placeholder = "Oyun açıklamasını giriniz" })
+
+            </div>
+
+            <div class="my-3">
+                <label class="form-label">Şirket</label>
+
+                @Html.TextBoxFor(x => x.Oyun.Sirket, "", new { @class = "form-control", placeHolder = "Oyun şirketini giriniz " })
+
+            </div>
+            <div class="my-3">
+                <label class="form-label">Resim</label>
+                <input type="file" name="Oyun.ResimDosyasi" class="form-control" />
+            </div>
+
+                
+
+            <button type="submit" class="btn btn-success my-3">
+                Kaydet
+            </button>
+        }
+    </div>
+</div>
+
+

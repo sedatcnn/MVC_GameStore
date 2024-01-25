@@ -1,0 +1,134 @@
+﻿@using MVCProje.Models.Domain
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model List<Tur>
+<h1 class="h3 mb-0 text-gray-800">Turler</h1>
+
+<a href="@Url.Action("Ekle", "Tur")" class="btn btn-primary my-3" title="Yeni Tur ekle">
+    Tur Ekle <i class="fas fa-plus"></i>
+</a>
+
+<div class="card">
+    <div class="card-header">
+        Turler
+    </div>
+    <div class="card-body">
+        <table id="tbl-tur" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Sıra No</th>
+                    <th>Tur</th>
+                    <th>Düzenle</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@Model[i].TurAd</td>
+
+                        <td>
+                            <a href="@Url.Action("Guncelle", "Tur", new { id = Model[i].Id })" class="btn btn-warning" title="Düzenle">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <form id="deleteForm_@(Model[i].Id)" method="post" action="@Url.Action("Sil", "Tur", new { id = Model[i].Id })">
+                                <button type="button" class="btn btn-danger delete-button">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                @Html.AntiForgeryToken()
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section scripts {
+    <!-- Add local Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+
+    <!-- Add local jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+    <!-- Add local DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+
+    <!-- Add local DataTables JavaScript -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Add local SweetAlert JavaScript -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            console.log("Document is ready!");
+
+            // DataTable initialization
+            var table = $('#tbl-tur').DataTable();
+
+            // SweetAlert for delete action using event delegation
+            $('#tbl-tur').on('click', '.delete-button', function (e) {
+                console.log("Delete button clicked!");
+
+                e.preventDefault();
+                var formId = $(this).closest('form').attr('id');
+                var rowIndex = table.row($(this).closest('tr')).index();
+
+                swal({
+                    title: 'Veriyi silmek istediğinizden emin misiniz?',
+                    icon: 'warning',
+                    buttons: {
+                        confirm: 'Evet, sil!',
+                        cancel: 'Vazgeç',
+                    },
+                }).then(async (willDelete) => {
+                    if (willDelete) {
+                        try {
+                            console.log("Will delete!");
+
+                            // Submit the form
+                            await $.ajax({
+                                type: "POST",
+                                url: $("#" + formId).attr("action"),
+                                data: $("#" + formId).serialize(),
+                                success: function () {
+                                    swal("Silme işlemi Başarıyla tamamlandı!", {
+                                        icon: 'success',
+                                    });
+                                    table.row(rowIndex).remove().draw(false);
+                                },
+                                error: function () {
+                                    swal("Silme işlemi sırasında hata oluştu!", {
+                                        icon: 'error',
+                                    });
+                                }
+                            });
+                        } catch (error) {
+                            console.error("Error:", error);
+
+                            swal("Silme işlemi sırasında hata oluştu!", {
+                                icon: 'error',
+                            });
+                        }
+                    } else {
+                        console.log("Delete canceled!");
+
+                        swal("Silme işlemi iptal edildi!");
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

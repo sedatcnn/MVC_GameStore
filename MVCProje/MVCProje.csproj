@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-MVCProje-05595208-69da-4d7e-ad49-c4498f4d3841</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\image\Alan-Wake-II-2.png" />
+    <None Include="wwwroot\image\assasins.jpg" />
+    <None Include="wwwroot\image\award.jpg" />
+    <None Include="wwwroot\image\away.jpg" />
+    <None Include="wwwroot\image\baldurs.jpg" />
+    <None Include="wwwroot\image\bf5.jpg" />
+    <None Include="wwwroot\image\callofduty.jpg" />
+    <None Include="wwwroot\image\control.webp" />
+    <None Include="wwwroot\image\cyber.jpg" />
+    <None Include="wwwroot\image\elden.jpg" />
+    <None Include="wwwroot\image\f1.jpg" />
+    <None Include="wwwroot\image\fifa.webp" />
+    <None Include="wwwroot\image\forza.jpg" />
+    <None Include="wwwroot\image\ghost.jpg" />
+    <None Include="wwwroot\image\godofwae.jpg" />
+    <None Include="wwwroot\image\hades.jpg" />
+    <None Include="wwwroot\image\hollow.webp" />
+    <None Include="wwwroot\image\ittakestwo.jpg" />
+    <None Include="wwwroot\image\lastofus.webp" />
+    <None Include="wwwroot\image\lie.jpg" />
+    <None Include="wwwroot\image\metro.jpg" />
+    <None Include="wwwroot\image\outlast.jpg" />
+    <None Include="wwwroot\image\resident.jpg" />
+    <None Include="wwwroot\image\starfield.jpg" />
+    <None Include="wwwroot\image\street.jpg" />
+    <None Include="wwwroot\image\sıfu.jpg" />
+    <None Include="wwwroot\image\tekken.jpg" />
+    <None Include="wwwroot\image\uncharted.jpg" />
+    <None Include="wwwroot\image\witcher.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jQuery" Version="3.7.1" />
+    <PackageReference Include="jquery.datatables" Version="1.10.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\" />
+  </ItemGroup>
+
+</Project>

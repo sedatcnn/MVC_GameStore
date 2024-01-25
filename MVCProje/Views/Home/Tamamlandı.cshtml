@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ödeme Tamamlandı</title>
+    <link href="~/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <a href="#!" class="text-success ">
+                    <i class="fas fa-check-circle fa-5x me-2 mb-5 mt-5"></i>
+                </a>
+                <h2 class="display-3 text-success">Teşekkürler!</h2>
+                <p class="lead mb-5">Ödeme işleminiz tamamlandı.</p>
+                <form id="paymentForm" action="@Url.Action("Index", "Home")">
+                    <button type="submit" class="btn btn-success btn-block btn-lg" onclick="submitPaymentForm()">
+                        <div class="d-flex justify-content-between">
+                            <span> <i class="fas fa-chevron-left ms-2"></i>  Alışverişe geri dön</span>
+                        </div>
+                    </button>   
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

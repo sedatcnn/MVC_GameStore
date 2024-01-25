@@ -1,0 +1,28 @@
+﻿@using MVCProje.Models.DTO
+@model KategoriEkleGuncelleDto
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        Kategori ekleme sayfası
+    </div>
+    <div class="card-body">
+        <form asp-controller="Kategori" asp-action="Ekle" method="post">
+
+            <div class="my-3">
+                <label class="form-label" asp-for="KategoriAd"></label>
+
+                <input asp-for="KategoriAd" class="form-control" placeholder="Kategori adını giriniz" />
+                <span asp-validation-for="KategoriAd" class="text-danger"></span>
+
+            </div>
+
+            <button type="submit" class="btn btn-success my-3" id="kaydetBtn">
+                Kaydet
+            </button>
+        </form>
+    </div>
+</div>
+

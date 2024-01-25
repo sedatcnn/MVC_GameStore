@@ -1,0 +1,86 @@
+﻿@using MVCProje.Models.DTO
+
+@model OyunEkleGuncelleViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        Oyun güncelleme sayfası
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Guncelle", "Oyunlar", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(x => x.Oyun.Id)
+            <div class="my-3">
+                <label class="form-label">Oyun Adı</label>
+
+                @Html.TextBoxFor(x => x.Oyun.OyunAdi, "", new { @class = "form-control", placeHolder = "Oyun adını giriniz" })
+
+            </div>
+
+            <div class="my-3">
+                <label class="form-label">Fiyat</label>
+
+                @Html.TextBoxFor(x => x.Oyun.Fiyat, "", new { @class = "form-control", placeHolder = "Oyun fiyatını giriniz", type = "number" })
+
+            </div>
+
+            <div class="my-3">
+                <label class="form-label">Kategori</label>
+
+                @Html.DropDownListFor(x => x.Oyun.KategoriId, new SelectList(Model.Kategoriler, "Id", "KategoriAd"), new { @class = "form-control", })
+
+            </div>
+
+            <div class="my-3">
+                <label class="form-label">Tur</label>
+
+                @Html.DropDownListFor(x => x.Oyun.TurId, new SelectList(Model.OyunTurler, "Id", "TurAd"), new { @class = "form-control", })
+
+            </div>
+            <div class="my-3">
+                <label class="form-label">Açıklama</label>
+
+                @Html.TextBoxFor(x => x.Oyun.Aciklama, "", new { @class = "form-control", placeHolder = "Oyun açıklamısını giriniz" })
+
+            </div>
+            <div class="my-3">
+                <label class="form-label">Şirket</label>
+
+                @Html.TextBoxFor(x => x.Oyun.Sirket, "", new { @class = "form-control", placeHolder = "Oyun şirketini giriniz "})
+
+            </div>
+            <div class="my-3">
+                <label class="form-label">Resim</label>
+
+                @if (!string.IsNullOrEmpty(Model.Oyun.OyunImage))
+                {
+                    <p>Mevcut Resim: @Model.Oyun.OyunImage</p>
+                    <div class="my-3">
+                        <label class="form-label">Yeni Resim Seç</label>
+                        <input type="file" name="Oyun.ResimDosyasi" class="form-control" />
+                        <label class="form-label">
+                            <input type="checkbox" name="Oyun.KullanMevcutResim" />
+                            Mevcut Resmi Kullan
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <input type="file" name="Oyun.ResimDosyasi" class="form-control" />
+                }
+            </div>
+
+
+
+
+            <button type="submit" class="btn btn-success my-3">
+                Güncelle
+            </button>
+        }
+    </div>
+</div>
+
+

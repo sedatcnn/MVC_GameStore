@@ -1,0 +1,162 @@
+﻿@using MVCProje.Models.DTO
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model HomeIndexViewModel
+
+<div id="carouselExampleFade" class="carousel slide carousel-fade ">
+    <div class="carousel-inner  " style="border-radius: 15px">
+        <div class="carousel-item active ">
+            <img src="~/image/rdrr.jpg " class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="~/image/baldurs.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="~/image/lie.jpg" class="d-block w-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="card m-md-3" style="border: 2px solid #7E2C7F ;border-radius: 15px">
+    <div class="card-header">
+        Filtreler
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("OneCikanlar", "Home", FormMethod.Get))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Fiyat Sırala</label>
+                    @Html.DropDownList("sortOrder", new SelectList(new[]
+                             {
+                new { Value = "", Text = "..." },
+                new { Value = "Fiyat Artan", Text = "Fiyat (Artan)" },
+                new { Value = "Fiyat Azalan", Text = "Fiyat (Azalan)" },
+                }, "Value", "Text", Model.Sıralama), new { @class = "form-control text-white" })
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label ">Kategori</label>
+
+                    @Html.DropDownList("kategoriId", new SelectList(Model.Kategoriler, "Id", "KategoriAd", Model.KategoriId), new { @class = "form-control text-white" })
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Turler</label>
+
+                    @Html.DropDownList("turId", new SelectList(Model.Turler, "Id", "TurAd", Model.TurId), new { @class = "form-control text-white" })
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success my-3">
+                Filtrele
+            </button>
+        }
+    </div>
+
+</div>
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var oyun in Model.Oyunlar)
+    {
+        <div class="col">
+            <div class="card h-100 buyume" style="border-radius: 15px; border: 2px solid #7E2C7F;max-width: 390px;">
+                <img src="~/image/@oyun.OyunImage" class="card-img-top" alt="..." style="border-radius: 15px;">
+                <div class="card-body">
+                    <h5 class="card-title">@oyun.OyunAdi</h5>
+                    <p class="card-text">@oyun.Acıklama</p>
+                    <p class="card-text">@oyun.Fiyat TL</p>
+                    <button type="button" class="btn btn-danger">@oyun.KategoriAdi</button>
+                    <button type="button" class="btn btn-warning" style="margin-left: 10px;">@oyun.TurAdi</button>
+                    <form method="post" asp-action="Sepet" asp-controller="Home" class="sepetForm" style="margin-top: 20px;">
+                        <input type="hidden" name="oyunId" value="@oyun.Id" />
+                        <custom-tag-button type="submit" button-class="btn btn-success addToCartButton" content="Sepete Ekle"></custom-tag-button>
+                        <div class="sepetMessage" style="margin-top: 10px;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="~/js/card/card.js"></script>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".sepetForm").submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var formData = new FormData(form[0]);
+
+                var sepetMessage = form.find(".sepetMessage");
+                var addToCartButton = form.find(".addToCartButton");
+                var oyunId = formData.get("oyunId");
+
+                if (!addToCartButton.prop("disabled")) {
+                    // Disable the button to prevent multiple clicks
+                    addToCartButton.prop("disabled", true);
+
+                    checkIfItemInCart(oyunId, formData, sepetMessage, addToCartButton);
+                }
+            });
+
+            $(".addToCartButton").click(function () {
+                $(this).closest(".sepetForm").submit();
+            });
+
+            function checkIfItemInCart(oyunId, formData, sepetMessage, addToCartButton) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/IsInCart",
+                    data: { oyunId: oyunId },
+                    success: function (result) {
+                        if (result.isInCart) {
+                            sepetMessage.text("Bu ürün zaten sepetinizde!").css("color", "red");
+                            // Re-enable the button
+                            addToCartButton.prop("disabled", false);
+                        } else {
+                            addToCart(formData, sepetMessage, addToCartButton);
+                        }
+                    },
+                    error: function () {
+                        sepetMessage.text("Error checking item in cart").css("color", "red");
+                        // Re-enable the button
+                        addToCartButton.prop("disabled", false);
+                    }
+                });
+            }
+
+            function addToCart(formData, sepetMessage, addToCartButton) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/Sepet",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        sepetMessage.text("Sepete eklendi").css("color", "green");
+                    },
+                    error: function () {
+                        sepetMessage.text("Error adding item to cart").css("color", "red");
+                    },
+                    complete: function () {
+                        // Re-enable the button after the request is complete
+                        addToCartButton.prop("disabled", false);
+                    }
+                });
+            }
+        });
+    </script>
+}
+
